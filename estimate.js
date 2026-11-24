@@ -19,6 +19,15 @@
   };
   var SMALL_M3 = 2.0, ROOM_M3 = 4.5, MAX_LOADS = 2; // over MAX_LOADS, or out of town, we quote
 
+  // The size the customer picks sets the price, so adding detail never makes the price jump.
+  var TIERS = {
+    few:    { label: 'A few things', sub: 'A couch, a fridge, a bed',  rate: 'singleItem', loads: 1, crew: 'Donnie and one oke' },
+    room:   { label: 'A room',       sub: 'Student room, back to mom', rate: 'room',       loads: 1, crew: 'Donnie and two okes' },
+    studio: { label: 'Studio flat',  sub: 'Bachelor or studio',        rate: 'studio',     loads: 1, crew: 'Donnie and two okes' },
+    one:    { label: '1-bed flat',   sub: 'Two bakkie loads',          rate: 'twoLoads',   loads: 2, crew: 'Donnie and three okes' },
+    two:    { label: 'Bigger',       sub: '2-bed and up',              quote: true,        loads: 3, crew: '' }
+  };
+
   var BOX_M3 = 0.06; // a medium moving box, about 45 x 35 x 40 cm
 
   // Rough volumes in cubic metres, by size. Pick the closest, no tape measure needed.
@@ -113,8 +122,15 @@
     var pct = Math.round(volume / cap * 100);
 
     var floors = ((state.from && state.from.floors) || 0) + ((state.to && state.to.floors) || 0);
-    var price = 0, quote = trips > MAX_LOADS || (trips > 0 && state.zone === 'out');
-    if (trips > 0 && !quote) {
+    var listTrips = trips, T = state.tier ? TIERS[state.tier] : null;
+    if (T) trips = T.loads;
+    var price = 0, quote = trips > MAX_LOADS || (trips > 0 && state.zone === 'out') || !!(T && T.quote);
+    if (T && !quote) {
+      price = rates[T.rate];
+      if (state.zone === 'metro') price += rates.metro;
+      price += floors * rates.stairsPerFloor;
+      if (state.packing === 'us' && boxesMid > 0) price += Math.ceil(boxesMid / rates.boxesPerPackDay) * rates.packDay + boxesMid * rates.packPerBox;
+    } else if (!T && trips > 0 && !quote) {
       price = volume <= SMALL_M3 ? rates.singleItem : trips === 1 ? (volume <= ROOM_M3 ? rates.room : rates.studio) : rates.twoLoads;
       if (state.zone === 'metro') price += rates.metro;
       price += floors * rates.stairsPerFloor;
@@ -142,11 +158,11 @@
       // the rate card is the floor; the top of the range leaves room for what the sheet can't see
       priceLo: price ? round50(price) : 0,
       priceHi: price ? round50(price * 1.1) : 0,
-      quote: quote,
+      quote: quote, listTrips: listTrips,
       kit: kit, notes: notes
     };
   }
 
-  var api = { estimate: estimate, presetItems: presetItems, CATALOG: CATALOG, HOMES: HOMES, RATES: RATES, CAPACITY_M3: CAPACITY_M3, FULLNESS: FULLNESS };
+  var api = { estimate: estimate, presetItems: presetItems, CATALOG: CATALOG, HOMES: HOMES, RATES: RATES, TIERS: TIERS, CAPACITY_M3: CAPACITY_M3, FULLNESS: FULLNESS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Estimator = api;
 })(this);

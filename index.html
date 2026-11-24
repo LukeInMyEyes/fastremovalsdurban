@@ -202,6 +202,69 @@ details.odd[open] summary::after{content:"\2212"}
 .fine{font-size:12px;color:var(--muted)}
 @media (max-width:420px){.duo,.fields{grid-template-columns:minmax(0,1fr)}.part{padding:16px}.sheet-head{padding:16px 16px 0}}
 
+/* the quote: one multiple-choice question at a time */
+[hidden]{display:none!important}
+.qt{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:16px}
+.qt-head{display:flex;justify-content:space-between;align-items:baseline;gap:6px 12px;flex-wrap:wrap}
+.qt-head h2{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.qt-prog{height:8px;border-radius:99px;background:var(--chip);overflow:hidden}
+.qt-prog i{display:block;height:100%;width:0;background:var(--blanket);border-radius:99px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.qt-meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:600;color:var(--muted);margin-top:-6px;font-variant-numeric:tabular-nums}
+.qt-meta #sofar{color:var(--ink)}
+.q{border:0;margin:0;padding:0;display:grid;gap:12px;min-width:0}
+.q legend{padding:0;margin-bottom:12px;font-family:var(--font-display);font-weight:800;font-size:clamp(22px,2.4vw,26px);letter-spacing:-.02em;line-height:1.15}
+.q legend:focus{outline:none}
+.qs.enter{animation:stepin .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes stepin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opt{position:relative;display:grid;gap:3px;align-content:start;padding:14px 16px;min-height:64px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;transition:border-color .15s ease,background .15s ease,transform .1s ease}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt b{font-size:16px;font-weight:700;line-height:1.25}
+.opt span{font-size:13px;color:var(--muted);line-height:1.35}
+.opt em{font-style:normal;font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--blanket);margin-top:6px}
+.opt:hover{border-color:var(--edge)}
+.opt:active{transform:scale(.98)}
+.opt.on,.opt:has(input:checked){border-color:var(--blanket);background:color-mix(in srgb,var(--blanket) 9%,var(--surface));box-shadow:inset 0 0 0 1px var(--blanket)}
+.opt:has(input:focus-visible){outline:3px solid var(--blanket);outline-offset:2px}
+.opts.small.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.opts.small .opt{min-height:44px;padding:10px 12px;align-content:center;text-align:center}
+.opt.tick{min-height:0;padding:12px 14px 12px 44px}
+.opt.tick::before{content:"";position:absolute;left:14px;top:14px;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--edge);background:var(--surface)}
+.opt.tick.on::before,.opt.tick:has(input:checked)::before{background:var(--blanket);border-color:var(--blanket);box-shadow:inset 0 0 0 3px var(--surface)}
+.qt-nav{display:flex;justify-content:space-between;gap:12px}
+.qt-nav:has(#back[hidden]):has(#next[hidden]){display:none}
+.link-btn{border:0;background:none;padding:10px 4px;min-height:44px;font-weight:600;font-size:15px;color:var(--muted);cursor:pointer}
+.link-btn:hover{color:var(--ink)}
+#next{margin-left:auto;color:var(--blanket)}
+.done{display:grid;gap:18px}
+.result{border-radius:16px;background:var(--chip);padding:18px 20px;display:grid;gap:4px}
+.result .k{font-size:13px;font-weight:600;color:var(--muted)}
+.result strong{font-family:var(--font-display);font-weight:900;font-size:clamp(32px,4.6vw,44px);letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.05;min-height:1.05em}
+.result strong:focus{outline:none}
+.result p{font-size:15px;color:var(--muted)}
+.result p:empty{display:none}
+.result .warn{color:var(--err)}
+.answers{display:flex;flex-wrap:wrap;gap:8px}
+.ans{border:0;border-radius:99px;padding:8px 12px;min-height:36px;font-size:13px;font-weight:600;background:var(--chip);color:var(--ink);cursor:pointer}
+.ans::after{content:" \270E";color:var(--muted);font-weight:400}
+.ans:hover{background:color-mix(in srgb,var(--blanket) 12%,var(--chip))}
+.book2{display:grid;gap:12px;padding-top:16px;border-top:1px dashed var(--line)}
+.book2 h3{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.book2 .fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.book2 .fields .wide{grid-column:1 / -1}
+.book2 .fields input{font-size:16px;min-height:46px}
+.book2 .btn{width:100%;padding:15px 20px;font-size:16px}
+details.more{border:1px dashed var(--edge);border-radius:14px;padding:12px 14px}
+details.more > summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;gap:8px;align-items:center;min-height:28px}
+details.more > summary::-webkit-details-marker{display:none}
+details.more > summary::after{content:"+";margin-left:auto;color:var(--blanket);font-weight:800;font-size:18px}
+details.more[open] > summary::after{content:"\2212"}
+.more-body{display:grid;gap:14px;margin-top:12px}
+.more .q legend{font-size:16px;margin-bottom:8px}
+.row select{min-height:36px;font-size:15px}
+.row .step button{min-width:40px;height:40px}
+@media (max-width:420px){.qt{padding:18px 16px}.opts{gap:8px}.opt{padding:12px 14px}}
+
 /* mobile sticky bar */
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--ink);color:var(--bg);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:none;align-items:center;justify-content:space-between;gap:12px;transform:translateY(110%);transition:transform .3s ease}
 .dock.show{transform:none}
@@ -286,124 +349,128 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
   <section class="wrap toolsec" id="price">
     <div class="tool-intro">
       <h2>Price it yourself. No site visit, no sales oke.</h2>
-      <p>Pick your stuff and the closest size. We work out the loads, the boxes and the tape. Measure only the weird stuff.</p>
+      <p>Five quick taps: what you're moving, who packs, how far, the stairs and when. Your price builds as you go.</p>
       <p>Your sheet reaches us on WhatsApp with a reference number, so nobody asks "what was it again?".</p>
       <figure class="intro-photo"><img src="crew.jpg" alt="Three movers carry a blanket-wrapped couch to the box bakkie while a fourth carries a lamp" width="1195" height="896" loading="lazy"><figcaption>Three strong okes and Donnie. Donnie carries the lamp.</figcaption></figure>
     </div>
     <div class="tool" id="tool">
-      <div class="sheet">
-        <div class="sheet-head">
-          <h2>Your move sheet</h2>
-          <span class="ref" id="ref">CP-0000</span>
+      <div class="qt" id="qt">
+        <div class="qt-head">
+          <h2>Price your move</h2>
+          <span class="hint">5 quick taps, about 2 minutes</span>
         </div>
+        <div class="qt-prog" aria-hidden="true"><i id="prog"></i></div>
+        <div class="qt-meta"><span id="step-label">Question 1 of 5</span><span id="sofar"></span></div>
 
-        <div class="summary" id="summary">
-          <div class="stat">
-            <span class="k">Bakkie loads</span>
-            <span class="v" id="v-trips">0</span>
-            <div class="loadbar" id="loadbar" aria-hidden="true"></div>
-            <span class="s" id="s-vol">Nothing on the sheet yet</span>
-          </div>
-          <div class="stat">
-            <span class="k">Boxes</span>
-            <span class="v" id="v-boxes">0</span>
-            <span class="s" id="s-boxes">for your stuff</span>
-          </div>
-          <div class="stat price">
-            <span class="k">Ballpark <span class="tag">Draft rates</span></span>
-            <span class="v" id="v-price">R0</span>
-            <span class="s" id="s-price">We confirm a fixed price on WhatsApp</span>
-          </div>
-        </div>
+        <fieldset class="q qs" data-step="1">
+          <legend tabindex="-1">What are you moving?</legend>
+          <div class="opts" id="tiers"></div>
+        </fieldset>
 
-        <div class="part">
-          <h3>What are you moving? <span id="example-note">Example: a 1-bed flat. Change anything.</span></h3>
-          <div class="chips" id="homes" role="group" aria-label="Size of the move"></div>
-        </div>
-
-        <div class="part">
-          <h3>Your stuff <span id="pieces">0 pieces</span></h3>
-          <div class="rows" id="rows"></div>
-          <div class="addrow">
-            <select id="add-select" aria-label="Add something"></select>
-            <button type="button" class="small-btn" id="add-btn">Add</button>
+        <fieldset class="q qs" data-step="2" hidden>
+          <legend tabindex="-1">Who's packing?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="pack" value="you"><b>I'll pack</b><span>You just move it</span></label>
+            <label class="opt"><input type="radio" name="pack" value="us"><b>You pack it all</b><span id="pack-sub">Boxes, tape and wrap included</span></label>
           </div>
-          <details class="odd" id="odd">
-            <summary>Something odd? Measure just that one</summary>
-            <p class="hint" style="margin-top:8px">Piano, fish tank, the giant wooden giraffe. Centimetres or metres, we sort it out.</p>
-            <div class="oddform">
-              <label class="wide" for="odd-name">What is it<input id="odd-name" placeholder="e.g. fish tank"></label>
-              <label for="odd-l">Length<input id="odd-l" inputmode="decimal" placeholder="cm"></label>
-              <label for="odd-w">Width<input id="odd-w" inputmode="decimal" placeholder="cm"></label>
-              <label for="odd-h">Height<input id="odd-h" inputmode="decimal" placeholder="cm"></label>
-              <button type="button" class="small-btn" id="odd-add">Add</button>
+        </fieldset>
+
+        <fieldset class="q qs" data-step="3" hidden>
+          <legend tabindex="-1">How far are you going?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="zone" value="local"><b>Nearby</b><span>The next suburb or two</span></label>
+            <label class="opt"><input type="radio" name="zone" value="metro"><b>Across Durban</b><span>Say Glenwood to Umhlanga</span></label>
+            <label class="opt"><input type="radio" name="zone" value="out"><b>Out of town</b><span>Ballito, PMB and further</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="q qs" data-step="4" hidden>
+          <legend tabindex="-1">Any stairs without a lift?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="stairs" value="0"><b>None</b><span>Ground floor or a lift</span></label>
+            <label class="opt"><input type="radio" name="stairs" value="1"><b>1 floor</b><span>Both ends added up</span></label>
+            <label class="opt"><input type="radio" name="stairs" value="2"><b>2 floors</b><span>Both ends added up</span></label>
+            <label class="opt"><input type="radio" name="stairs" value="3"><b>3 or more</b><span>Bring the snacks</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="q qs" data-step="5" hidden>
+          <legend tabindex="-1">When are you moving?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="when" value="This week"><b>This week</b></label>
+            <label class="opt"><input type="radio" name="when" value="Next week"><b>Next week</b></label>
+            <label class="opt"><input type="radio" name="when" value="This month"><b>This month</b></label>
+            <label class="opt"><input type="radio" name="when" value="Just checking prices"><b>Just looking</b></label>
+          </div>
+        </fieldset>
+
+        <div class="qs done" data-step="6" hidden>
+          <div class="result" id="result" aria-live="polite">
+            <span class="k">Your price <span class="tag">Draft rates</span></span>
+            <strong id="qt-price" tabindex="-1">R0</strong>
+            <p id="what"></p>
+            <p id="need"></p>
+            <p class="warn" id="warn"></p>
+          </div>
+          <div class="answers" id="answers" aria-label="Your answers, tap one to change it"></div>
+
+          <div class="book2" id="book">
+            <h3>Book it</h3>
+            <div class="fields">
+              <label class="wide" for="f-name">Your name<input id="f-name" autocomplete="given-name" placeholder="First name is fine" required></label>
+              <label for="f-from">Moving from<input id="f-from" placeholder="Suburb"></label>
+              <label for="f-to">Moving to<input id="f-to" placeholder="Suburb"></label>
             </div>
-            <p class="err" id="odd-err" aria-live="polite"></p>
+            <label class="opt tick"><input type="checkbox" id="f-photos"><b>I'll send photos of the rooms</b><span>Snap each room after you tap send. It sharpens the price.</span></label>
+            <a class="btn" id="wa" href="https://wa.me/" target="_blank" rel="noopener" aria-disabled="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.8-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3Z"/></svg>
+              <span>Book on WhatsApp</span>
+            </a>
+            <p class="helper" id="wa-help" aria-live="polite">Add your name, then tap to send.</p>
+            <ul class="deal">
+              <li>A fixed price agreed on WhatsApp before we come. No meter running.</li>
+              <li>A blanket on every piece before it gets lifted.</li>
+              <li>You pay on the day, once the last box is in: card, EFT or Bitcoin.</li>
+            </ul>
+          </div>
+
+          <details class="more" id="more">
+            <summary>Add your list <span class="hint">optional</span></summary>
+            <div class="more-body">
+              <p class="hint">Helps us send the right crew. It doesn't change the price above.</p>
+              <div class="rows" id="rows"></div>
+              <div class="addrow">
+                <select id="add-select" aria-label="Add something"></select>
+                <button type="button" class="small-btn" id="add-btn">Add</button>
+              </div>
+              <details class="odd" id="odd">
+                <summary>Something odd? Measure just that one</summary>
+                <p class="hint" style="margin-top:8px">Piano, fish tank, the giant wooden giraffe. Centimetres or metres, we sort it out.</p>
+                <div class="oddform">
+                  <label class="wide" for="odd-name">What is it<input id="odd-name" placeholder="e.g. fish tank"></label>
+                  <label for="odd-l">Length<input id="odd-l" inputmode="decimal" placeholder="cm"></label>
+                  <label for="odd-w">Width<input id="odd-w" inputmode="decimal" placeholder="cm"></label>
+                  <label for="odd-h">Height<input id="odd-h" inputmode="decimal" placeholder="cm"></label>
+                  <button type="button" class="small-btn" id="odd-add">Add</button>
+                </div>
+                <p class="err" id="odd-err" aria-live="polite"></p>
+              </details>
+              <fieldset class="q">
+                <legend>How full are your cupboards?</legend>
+                <div class="opts small three">
+                  <label class="opt"><input type="radio" name="full" value="minimalist"><b>Tidy</b></label>
+                  <label class="opt"><input type="radio" name="full" value="normal" checked><b>Normal</b></label>
+                  <label class="opt"><input type="radio" name="full" value="hoarder"><b>Hoarder</b></label>
+                </div>
+              </fieldset>
+            </div>
           </details>
         </div>
 
-        <div class="part">
-          <h3>Boxes <span>A rule of thumb, not a promise</span></h3>
-          <div class="duo">
-            <div><span class="k">How full are your cupboards?</span>
-              <div class="seg" role="radiogroup" aria-label="How full are your cupboards">
-                <input type="radio" name="full" id="full-min" value="minimalist"><label for="full-min">Tidy</label>
-                <input type="radio" name="full" id="full-norm" value="normal" checked><label for="full-norm">Normal</label>
-                <input type="radio" name="full" id="full-hoard" value="hoarder"><label for="full-hoard">Hoarder</label>
-              </div>
-            </div>
-            <div><span class="k">Who's packing?</span>
-              <div class="seg" role="radiogroup" aria-label="Who is packing">
-                <input type="radio" name="pack" id="pack-you" value="you" checked><label for="pack-you">Me</label>
-                <input type="radio" name="pack" id="pack-us" value="us"><label for="pack-us">You lot</label>
-              </div>
-            </div>
-          </div>
-          <div class="boxline">
-            <span class="crate" id="crate">About 0 boxes</span>
-            <p class="hint" id="box-hint">Count a kitchen like two bedrooms. Books go in small boxes, duvets in big ones.</p>
-          </div>
-          <div class="floors"><span class="k">Know your own count?<br><span class="hint">add or take away boxes</span></span>
-            <span class="step"><button type="button" id="bx-dn" aria-label="Five fewer boxes">&minus;5</button><output id="bx-n">0</output><button type="button" id="bx-up" aria-label="Five more boxes">+5</button></span></div>
-          <ul class="kit" id="kit"></ul>
+        <div class="qt-nav">
+          <button type="button" class="link-btn" id="back" hidden>&larr; Back</button>
+          <button type="button" class="link-btn" id="next" hidden>Next &rarr;</button>
         </div>
-
-        <div class="part">
-          <h3>Getting in and out</h3>
-          <div class="duo">
-            <div class="floors"><span class="k">Stairs at pickup<br><span class="hint">floors, no lift</span></span>
-              <span class="step"><button type="button" id="from-dn" aria-label="Fewer floors at pickup">&minus;</button><output id="from-n">0</output><button type="button" id="from-up" aria-label="More floors at pickup">+</button></span></div>
-            <div class="floors"><span class="k">Stairs at drop-off<br><span class="hint">floors, no lift</span></span>
-              <span class="step"><button type="button" id="to-dn" aria-label="Fewer floors at drop-off">&minus;</button><output id="to-n">0</output><button type="button" id="to-up" aria-label="More floors at drop-off">+</button></span></div>
-          </div>
-          <div class="seg" role="radiogroup" aria-label="How far">
-            <input type="radio" name="zone" id="z-local" value="local" checked><label for="z-local">Nearby</label>
-            <input type="radio" name="zone" id="z-metro" value="metro"><label for="z-metro">Across Durban</label>
-            <input type="radio" name="zone" id="z-out" value="out"><label for="z-out">Out of town</label>
-          </div>
-          <p class="hint">Nearby is the next suburb or two. Out of town is Ballito, PMB and further.</p>
-        </div>
-
-        <form class="part book" id="book" novalidate>
-          <h3>Book it</h3>
-          <div class="fields">
-            <label for="f-name">Your name<input id="f-name" autocomplete="given-name" placeholder="First name is fine" required></label>
-            <label for="f-when">When are you moving?<input id="f-when" placeholder="e.g. Saturday morning"></label>
-            <label for="f-from">Moving from<input id="f-from" placeholder="Suburb"></label>
-            <label for="f-to">Moving to<input id="f-to" placeholder="Suburb"></label>
-          </div>
-          <a class="btn" id="wa" href="https://wa.me/" target="_blank" rel="noopener" aria-disabled="true">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.8-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3Z"/></svg>
-            <span id="wa-label">Book on WhatsApp</span>
-          </a>
-          <p class="helper" id="wa-help" aria-live="polite">Add your name, then tap to send.</p>
-          <ul class="deal">
-            <li>A fixed price agreed on WhatsApp before we come. No meter running.</li>
-            <li>A blanket on every piece before it gets lifted.</li>
-            <li>You pay on the day, once the last box is in: card, EFT or Bitcoin.</li>
-          </ul>
-          <p class="fine">Opens WhatsApp with your whole move sheet typed out. Keep the sheet; it's yours either way.</p>
-        </form>
       </div>
     </div>
   </section>
@@ -447,244 +514,231 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
   <a class="btn" href="#book" tabindex="-1">Book it</a>
 </div>
 
-<div class="toast" id="toast" role="status" aria-live="polite"><span id="toast-msg"></span><button type="button" id="toast-undo">Undo</button></div>
-
 <script src="estimate.js"></script>
 <script>
 (function(){
   var BRAND='Fast Removals Durban';  // change the name here
   var WA_NUMBER='';                   // business WhatsApp, e.g. 27820000000
-  var E=window.Estimator, CAT=E.CATALOG;
-  document.querySelectorAll('[data-brand]').forEach(function(el){el.textContent=BRAND});
-
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var state={home:'few',fullness:'normal',packing:'you',items:[],custom:[],from:{floors:0},to:{floors:0},zone:'local'};
+  var E=window.Estimator, CAT=E.CATALOG, T=E.TIERS, R=E.RATES;
   var $=function(id){return document.getElementById(id)};
-  var ROOMS=['Lounge','Kitchen','Bedroom','Outside','Odd ones'];
-  var shown={}; // numbers currently on screen, for the count-up
-  var uid=0, MAX_EACH=20, BIG_TRIPS=2, BOX_LEN_CM=290; // BOX_LEN_CM is a GUESS until the box is measured
+  document.querySelectorAll('[data-brand]').forEach(function(el){el.textContent=BRAND});
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var state={tier:null,home:'few',fullness:'normal',packing:'you',items:[],custom:[],from:{floors:0},to:{floors:0},zone:'local',when:''};
+  var STEPS=5, step=1, answered={};
+  var listEdited=false, uid=0, MAX_EACH=20, BOX_LEN_CM=290; // BOX_LEN_CM is a GUESS until the box is measured
   function tag(list){list.forEach(function(i){if(!i.id)i.id=++uid});return list}
-  var NOTE={room:'Started from a typical room. Change anything.',studio:'Started from a typical studio. Change anything.',one:'Started from a typical 1-bed flat. Change anything.',two:'Started from a typical 2-bed. Change anything.',three:'Started from a typical 3-bed. Change anything.',few:'Add your things below, one by one.'};
+  function money(n){return 'R'+n.toLocaleString('en-ZA').replace(/,/g,' ')}
 
-  // home chips
-  Object.keys(E.HOMES).forEach(function(k){
-    var b=document.createElement('button');b.type='button';b.textContent=E.HOMES[k].label;b.dataset.home=k;
-    b.setAttribute('aria-pressed','false');
-    b.onclick=function(){stopDemo();setHome(k)};
-    $('homes').appendChild(b);
+  // 1. size tiles, priced from the rate card
+  Object.keys(T).forEach(function(k){
+    var t=T[k], l=document.createElement('label');l.className='opt';
+    l.innerHTML='<input type="radio" name="tier" value="'+k+'"><b></b><span></span><em></em>';
+    l.querySelector('b').textContent=t.label;l.querySelector('span').textContent=t.sub;
+    l.querySelector('em').textContent=t.quote?'We’ll quote':money(R[t.rate]);
+    $('tiers').appendChild(l);
   });
-  function pressHome(k){document.querySelectorAll('#homes button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.home===k?'true':'false')})}
-  function setHome(k){
-    var had=state.items.some(function(i){return i.n>0});
-    var before={home:state.home,items:JSON.parse(JSON.stringify(state.items)),extraBoxes:state.extraBoxes||0,note:$('example-note').textContent};
-    // a home size swaps the furniture and resets the box tweak; measured odd items stay
-    state.home=k;state.items=tag(E.presetItems(k));state.extraBoxes=0;
-    pressHome(k);$('example-note').textContent=NOTE[k];
-    render();
-    if(had)toast('Swapped to a typical '+(k==='few'?'empty list':E.HOMES[k].label.toLowerCase())+'. Your odd items stayed.',function(){
-      state.home=before.home;state.items=before.items;state.extraBoxes=before.extraBoxes;pressHome(before.home);$('example-note').textContent=before.note;render();
-    });
-  }
-  var toastT=null, undoFn=null;
-  function toast(msg,fn){
-    $('toast-msg').textContent=msg;undoFn=fn;$('toast').classList.add('show');
-    clearTimeout(toastT);toastT=setTimeout(function(){$('toast').classList.remove('show');undoFn=null},7000);
-  }
-  $('toast-undo').onclick=function(){if(undoFn){undoFn();undoFn=null}$('toast').classList.remove('show');clearTimeout(toastT)};
+  $('pack-sub').textContent='+'+money(R.packDay)+' a day, '+money(R.packPerBox)+' a box';
 
-  // add-something dropdown, grouped by room
+  // every multiple-choice answer
+  var STEP_OF={tier:1,pack:2,zone:3,stairs:4,when:5};
+  document.querySelectorAll('.qt input[type=radio]').forEach(function(x){x.addEventListener('change',function(){
+    var v=x.value;
+    if(x.name==='tier'){state.tier=v;state.home=v;if(!listEdited)state.items=tag(E.presetItems(v))}
+    else if(x.name==='pack')state.packing=v;
+    else if(x.name==='zone')state.zone=v;
+    else if(x.name==='stairs')state.from.floors=+v;
+    else if(x.name==='full'){state.fullness=v;listEdited=true}
+    else if(x.name==='when')state.when=v;
+    if(STEP_OF[x.name])answered[STEP_OF[x.name]]=true;
+    mark();render();
+  })});
+  // a tap (or Space) on an answer moves on by itself; arrow keys only change the answer
+  document.querySelectorAll('.qt .qs .opt').forEach(function(l){l.addEventListener('click',function(){
+    var st=+l.closest('.qs').dataset.step;
+    setTimeout(function(){if(answered[st]&&st===step){var all=true;for(var i=1;i<=STEPS;i++)if(!answered[i])all=false;go(all?STEPS+1:st+1)}},240);
+  })});
+  $('back').onclick=function(){go(step-1)};
+  $('next').onclick=function(){if(answered[step])go(step+1)};
+  $('f-photos').addEventListener('change',updateWA);
+
+  var LABELS={pack:{you:'I\u2019ll pack',us:'You pack it all'},zone:{local:'Nearby',metro:'Across Durban',out:'Out of town'},stairs:{0:'No stairs',1:'1 floor of stairs',2:'2 floors of stairs',3:'3+ floors of stairs'}};
+  function go(n){
+    n=Math.max(1,Math.min(STEPS+1,n));
+    for(var i=1;i<n&&i<=STEPS;i++)if(!answered[i]){n=i;break}
+    step=n;
+    document.querySelectorAll('.qt .qs').forEach(function(el){var on=+el.dataset.step===n;el.hidden=!on;if(on&&!reduce){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}});
+    $('back').hidden=n===1;
+    var done=n>STEPS;
+    $('step-label').textContent=done?'Your price':'Question '+n+' of '+STEPS;
+    $('prog').style.width=(done?100:Math.round((n-1)/STEPS*100))+'%';
+    if(done){shownPrice=0;$('qt-price').textContent='';renderAnswers()}
+    render();
+    var top=$('qt').getBoundingClientRect().top;if(top<0)$('qt').scrollIntoView({block:'start'});
+    var target=done?$('qt-price'):document.querySelector('.qt .qs[data-step="'+n+'"] legend');
+    if(target&&step>1)target.focus({preventScroll:true});
+  }
+  function renderAnswers(){
+    var box=$('answers');box.innerHTML='';
+    var bits=[[1,T[state.tier].label],[2,LABELS.pack[state.packing]],[3,LABELS.zone[state.zone]],[4,LABELS.stairs[state.from.floors]],[5,state.when==='Just checking prices'?'Just looking':state.when]];
+    bits.forEach(function(b){var btn=document.createElement('button');btn.type='button';btn.className='ans';btn.textContent=b[1];btn.setAttribute('aria-label','Change: '+b[1]);btn.onclick=function(){go(b[0])};box.appendChild(btn)});
+  }
+  // checked style for browsers without :has()
+  function mark(){document.querySelectorAll('.qt .opt').forEach(function(l){var i=l.querySelector('input');l.classList.toggle('on',!!(i&&i.checked))})}
+
+  // the optional list
   (function(){
     var sel=$('add-select'), groups={};
-    var o=document.createElement('option');o.value='';o.textContent='Add something else…';sel.appendChild(o);
+    var o=document.createElement('option');o.value='';o.textContent='Add something…';sel.appendChild(o);
     Object.keys(CAT).forEach(function(k){
       var r=CAT[k].room;if(!groups[r]){groups[r]=document.createElement('optgroup');groups[r].label=r;sel.appendChild(groups[r])}
       var op=document.createElement('option');op.value=k;op.textContent=CAT[k].label;groups[r].appendChild(op);
     });
   })();
   $('add-btn').onclick=function(){
-    var k=$('add-select').value;if(!k)return;stopDemo();
+    var k=$('add-select').value;if(!k)return;
     var c=CAT[k], size=c.def||Object.keys(c.sizes)[0];
     var ex=state.items.find(function(i){return i.k===k&&i.size===size});
     if(ex)ex.n=Math.min(MAX_EACH,ex.n+1);else state.items.push({id:++uid,k:k,size:size,n:1,fresh:true});
-    $('add-select').value='';render();
+    listEdited=true;$('add-select').value='';render();
   };
-  // "150", "150cm", "1.5m", "1,5 m" all work; small bare numbers are read as metres
   function parseLen(v){
     v=String(v||'').trim().toLowerCase().replace(',','.');
     var m=v.match(/^(\d+(?:\.\d+)?)\s*(cm|mm|m)?$/);if(!m)return null;
     var x=parseFloat(m[1]);if(!(x>0))return null;
-    if(m[2]==='mm')return{cm:x/10};if(m[2]==='m')return{cm:x*100,m:true};if(m[2]==='cm')return{cm:x};
+    if(m[2]==='mm')return{cm:x/10};if(m[2]==='m')return{cm:x*100};if(m[2]==='cm')return{cm:x};
     return x<10?{cm:x*100,guess:true}:{cm:x};
   }
   $('odd-add').onclick=function(){
     var err=$('odd-err'), ids=['odd-l','odd-w','odd-h'], names=['length','width','height'], d=[];
     for(var i=0;i<3;i++){
       var raw=$(ids[i]).value, v=parseLen(raw);
-      if(!v){err.textContent=raw.trim()?('We couldn\u2019t read the '+names[i]+'. Try a number like 120 or 1.2 m.'):('Add the '+names[i]+' too. A rough number is fine.');$(ids[i]).focus();return}
+      if(!v){err.textContent=raw.trim()?('We couldn’t read the '+names[i]+'. Try a number like 120 or 1.2 m.'):('Add the '+names[i]+' too. A rough number is fine.');$(ids[i]).focus();return}
       d.push(v);
     }
     var cm=d.map(function(v){return Math.round(v.cm)}), guessed=d.some(function(v){return v.guess});
-    var name=$('odd-name').value.trim()||'Odd thing', tooBig=Math.max.apply(null,cm)>BOX_LEN_CM;
-    stopDemo();state.custom.push({id:++uid,name:name,l:cm[0],w:cm[1],h:cm[2],n:1,fresh:true,tooBig:tooBig});
+    var name=$('odd-name').value.trim()||'Odd thing';
+    state.custom.push({id:++uid,name:name,l:cm[0],w:cm[1],h:cm[2],n:1,fresh:true,tooBig:Math.max.apply(null,cm)>BOX_LEN_CM});
     ['odd-name','odd-l','odd-w','odd-h'].forEach(function(id){$(id).value=''});
-    err.textContent=guessed?('Read as metres: '+cm.join(' x ')+' cm. Fix it with the minus button if that\u2019s wrong.'):'';
-    render();
+    err.textContent=guessed?('Read as metres: '+cm.join(' x ')+' cm.'):'';
+    listEdited=true;render();
   };
-
-  function sizeLabel(s){return s==='std'?'':s}
-
+  var ROOMS=['Lounge','Kitchen','Bedroom','Outside','Odd ones'];
   function renderRows(){
-    var box=$('rows');box.innerHTML='';
+    var box=$('rows');box.innerHTML='';tag(state.items);tag(state.custom);
     var byRoom={};
-    tag(state.items);tag(state.custom);
-    state.items.forEach(function(it,i){var r=CAT[it.k].room;(byRoom[r]=byRoom[r]||[]).push({it:it,i:i})});
-    if(state.custom.length)byRoom['Odd ones']=state.custom.map(function(c,i){return{c:c,i:i}});
-    if(!state.items.length&&!state.custom.length){
-      var p=document.createElement('p');p.className='hint';p.textContent='Nothing yet. Pick a size of move above, or add things one by one.';box.appendChild(p);return;
-    }
+    state.items.forEach(function(it){(byRoom[CAT[it.k].room]=byRoom[CAT[it.k].room]||[]).push({it:it})});
+    if(state.custom.length)byRoom['Odd ones']=state.custom.map(function(c){return{c:c}});
+    if(!state.items.length&&!state.custom.length){var p=document.createElement('p');p.className='hint';p.textContent=state.tier?'Nothing on the list yet. Add things below.':'Pick what you’re moving above and we’ll start the list for you.';box.appendChild(p);return}
     ROOMS.forEach(function(r){
       if(!byRoom[r])return;
       var h=document.createElement('div');h.className='room';h.textContent=r;box.appendChild(h);
       byRoom[r].forEach(function(e){
-        var row=document.createElement('div');row.className='row';
-        var item=e.it||e.c;if(item.n===0)row.classList.add('zero');
+        var item=e.it||e.c, row=document.createElement('div');row.className='row';
+        if(item.n===0)row.classList.add('zero');
         if(item.fresh){row.classList.add('in');delete item.fresh}
-        var name=document.createElement('span');name.className='name';
-        name.textContent=e.it?CAT[e.it.k].label:e.c.name;row.appendChild(name);
-        if(e.it){
-          var sizes=Object.keys(CAT[e.it.k].sizes);
-          if(sizes.length>1){
-            var s=document.createElement('select');s.setAttribute('aria-label','Size of '+CAT[e.it.k].label.toLowerCase());
-            s.id='size-'+e.it.id;
-            sizes.forEach(function(z){var o=document.createElement('option');o.value=z;o.textContent=z;if(z===e.it.size)o.selected=true;s.appendChild(o)});
-            s.onchange=function(){stopDemo();e.it.size=s.value;render()};
-            row.appendChild(s);
-          } else {var f=document.createElement('span');f.className='fixed';row.appendChild(f)}
-        } else {var d=document.createElement('span');d.className='fixed';d.textContent=e.c.l+' x '+e.c.w+' x '+e.c.h+' cm';row.appendChild(d)}
+        var name=document.createElement('span');name.className='name';name.textContent=e.it?CAT[e.it.k].label:e.c.name;row.appendChild(name);
+        if(e.it&&Object.keys(CAT[e.it.k].sizes).length>1){
+          var s=document.createElement('select');s.id='size-'+item.id;s.setAttribute('aria-label','Size of '+CAT[e.it.k].label.toLowerCase());
+          Object.keys(CAT[e.it.k].sizes).forEach(function(z){var o=document.createElement('option');o.value=z;o.textContent=z;if(z===e.it.size)o.selected=true;s.appendChild(o)});
+          s.onchange=function(){e.it.size=s.value;listEdited=true;render()};row.appendChild(s);
+        } else {var f=document.createElement('span');f.className='fixed';if(e.c)f.textContent=e.c.l+' x '+e.c.w+' x '+e.c.h+' cm';row.appendChild(f)}
         var st=document.createElement('span');st.className='step';
         var dn=document.createElement('button');dn.type='button';dn.innerHTML='&minus;';dn.setAttribute('aria-label','One less '+name.textContent.toLowerCase());
         var out=document.createElement('output');out.textContent=item.n;
         var up=document.createElement('button');up.type='button';up.textContent='+';up.setAttribute('aria-label','One more '+name.textContent.toLowerCase());
         var key=(e.it?'i':'c')+item.id;dn.id='dn-'+key;up.id='up-'+key;
         dn.disabled=item.n<=0;up.disabled=item.n>=MAX_EACH;
-        // minus stops at zero and the row stays, greyed, so nothing disappears under your thumb
-        dn.onclick=function(){stopDemo();item.n=Math.max(0,item.n-1);render()};
-        up.onclick=function(){stopDemo();item.n=Math.min(MAX_EACH,item.n+1);render()};
+        dn.onclick=function(){item.n=Math.max(0,item.n-1);listEdited=true;render()};
+        up.onclick=function(){item.n=Math.min(MAX_EACH,item.n+1);listEdited=true;render()};
         st.appendChild(dn);st.appendChild(out);st.appendChild(up);row.appendChild(st);
-        if(e.c&&e.c.tooBig){var w=document.createElement('span');w.className='warn';w.textContent='Longer than the inside of the bakkie. We\u2019ll sort it out on WhatsApp.';row.appendChild(w)}
+        if(e.c&&e.c.tooBig){var w=document.createElement('span');w.className='warn';w.textContent='Longer than the inside of the bakkie. We’ll sort it out on WhatsApp.';row.appendChild(w)}
         box.appendChild(row);
       });
     });
   }
 
-  function money(n){return 'R'+n.toLocaleString('en-ZA').replace(/,/g,' ')}
-  function countTo(el,key,to,fmt){
-    var from=shown[key]||0;shown[key]=to;
-    if(reduce||from===to){el.textContent=fmt(to);return}
-    var t0=Date.now(),dur=450;
-    clearInterval(el._t);
-    el._t=setInterval(function(){
-      var p=Math.min(1,(Date.now()-t0)/dur), v=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));
-      el.textContent=fmt(v);if(p>=1){clearInterval(el._t);el.textContent=fmt(to)}
-    },30);
+  // the price, counting up when it changes
+  var shownPrice=0, lastR=null;
+  function countPrice(lo,hi){
+    var el=$('qt-price'), from=shownPrice;shownPrice=hi;
+    if(reduce){el.textContent=money(lo)+' to '+money(hi);return}
+    var t0=Date.now();clearInterval(el._t);
+    el._t=setInterval(function(){var p=Math.min(1,(Date.now()-t0)/(from?400:900)),k=1-Math.pow(1-p,3),h=Math.round(from+(hi-from)*k);
+      el.textContent=money(Math.round(lo*h/hi/50)*50)+' to '+money(h);if(p>=1){clearInterval(el._t);el.textContent=money(lo)+' to '+money(hi)}},30);
   }
-
-  var lastR=null, lastBig=false;
   function render(){
     var focusId=document.activeElement&&document.activeElement.id;
     renderRows();
-    if(focusId&&$(focusId)){var f=$(focusId);
-      if(f.disabled){var alt=$((focusId.indexOf('dn-')===0?'up-':'dn-')+focusId.slice(3));if(alt)alt.focus()}
-      else if(document.activeElement!==f)f.focus()}
+    if(focusId&&$(focusId)){var f=$(focusId);if(f.disabled){var alt=$((focusId.indexOf('dn-')===0?'up-':'dn-')+focusId.slice(3));if(alt)alt.focus()}else if(document.activeElement!==f)f.focus()}
     var r=E.estimate(state);lastR=r;
-    // loads
-    countTo($('v-trips'),'trips',r.trips,function(v){return String(v)});
-    var lb=$('loadbar');lb.innerHTML='';
-    var n=Math.max(1,Math.min(r.trips,BIG_TRIPS+1));
-    for(var i=0;i<n;i++){var s=document.createElement('i');var fill=Math.max(0,Math.min(100,r.pct-i*100));s.style.setProperty('--w',(r.trips?fill:0)+'%');lb.appendChild(s)}
-    $('s-vol').textContent=r.trips?('About '+r.volume+' m³ of stuff'+(r.trips===1?', '+r.pct+'% of the bakkie':'')):'Nothing on the sheet yet';
-    // boxes
-    countTo($('v-boxes'),'boxes',r.boxesHi,function(v){return r.boxesHi?(r.boxesLo+' to '+v):'0'});
-    $('s-boxes').textContent=r.boxesHi?'rough count for your rooms':'add a home size for a count';
-    $('crate').textContent=r.boxesHi?('About '+r.boxesLo+' to '+r.boxesHi+' boxes'):'No boxes needed';
-    var kit=$('kit');kit.innerHTML='';
-    if(state.packing==='us'){var li=document.createElement('li');li.textContent='We bring the boxes, tape, bubble wrap and blankets. You bring the snacks.';kit.appendChild(li)}
-    else r.kit.forEach(function(k){var li=document.createElement('li');li.textContent=k;kit.appendChild(li)});
-    // price
-    var big=r.quote;lastBig=big;
-    if(big){clearInterval($('v-price')._t);shown.price=0;$('v-price').textContent='Let\u2019s chat';$('s-price').textContent=r.trips>BIG_TRIPS?'Bigger than our usual. Send the sheet and we\u2019ll tell you straight if it\u2019s us or a bigger truck.':'We quote out-of-town moves. Send the sheet and we\u2019ll come back with a fixed price.'}
-    else{countTo($('v-price'),'price',r.priceHi,function(v){return r.priceHi?(money(r.priceLo)+' to '+money(v)):'R0'});
-    $('s-price').textContent=r.trips?'We confirm a fixed price on WhatsApp':'Add your stuff to see a ballpark'}
-    // counts
-    var pieces=r.pieces;$('pieces').textContent=pieces+(pieces===1?' piece':' pieces');
-    $('ref').textContent='CP-'+refOf();
-    $('d-main').textContent=r.trips+(r.trips===1?' load':' loads')+(big?(r.trips>BIG_TRIPS?' · bigger than usual':' · we\u2019ll quote'):(r.priceHi?' · '+money(r.priceLo)+' to '+money(r.priceHi):''));
-    $('d-sub').textContent=r.boxesHi?(r.boxesLo+' to '+r.boxesHi+' boxes'):'no boxes';
-    $('from-n').textContent=state.from.floors;$('to-n').textContent=state.to.floors;
-    $('bx-n').textContent=(state.extraBoxes>0?'+':'')+(state.extraBoxes||0);
+    var t=state.tier?T[state.tier]:null, price=$('qt-price'), what=$('what'), need=$('need'), warn=$('warn');
+    $('sofar').textContent=(t&&step<=STEPS)?('So far: '+(r.quote?'we\u2019ll quote':money(r.priceLo))):'';
+    $('next').hidden=!(step<=STEPS&&answered[step]);
+    if(step<=STEPS){updateWA();$('d-main').textContent=t?(r.quote?'Let\u2019s chat':money(r.priceLo)+' to '+money(r.priceHi)):'';$('d-sub').textContent=t?t.label:'';return}
+    if(!t){price.textContent='Tap what you’re moving';what.textContent='Your price shows up here as you answer.';need.textContent='';warn.textContent=''}
+    else if(r.quote){
+      clearInterval(price._t);shownPrice=0;price.textContent='Let’s chat';
+      what.textContent=state.tier==='two'?'Bigger than our usual. Send it through and we’ll tell you straight if it’s us or a bigger truck.':'We quote out-of-town moves. Send it through and we’ll come back with a fixed price.';
+      need.textContent='';warn.textContent='';
+    } else {
+      countPrice(r.priceLo,r.priceHi);
+      what.textContent=t.label+' · '+(t.loads===1?'one bakkie load':t.loads+' bakkie loads')+' · '+t.crew;
+      need.textContent=!r.boxesHi?'':(state.packing==='us'?('We bring about '+r.boxesMid+' boxes, the tape and the wrap.'):('You’ll need about '+r.boxesLo+' to '+r.boxesHi+' boxes'+(r.kit[1]?', '+r.kit[1].replace(' rolls of packing tape',' rolls of tape'):'')+'.'));
+      warn.textContent=(listEdited&&r.listTrips>t.loads)?('Your list looks bigger than a '+t.label.toLowerCase()+'. We’ll confirm on WhatsApp.'):'';
+    }
+    // dock
+    $('d-main').textContent=!t?'':(r.quote?'Let’s chat':money(r.priceLo)+' to '+money(r.priceHi));
+    $('d-sub').textContent=t?t.label:'';
     updateWA();
   }
 
+  // WhatsApp: name first, everything they tapped goes in the message
+  var fName=$('f-name'), fFrom=$('f-from'), fTo=$('f-to'), wa=$('wa');
   function refOf(){
-    var s=JSON.stringify([state.home,state.fullness,state.packing,state.extraBoxes||0,state.items.map(function(i){return i.k+i.size+i.n}),state.custom.map(function(c){return c.name+c.l+c.w+c.h+c.n}),state.from.floors,state.to.floors,state.zone]);
+    var s=JSON.stringify([state.tier,state.packing,state.zone,state.from.floors,state.fullness,listEdited?state.items.map(function(i){return i.k+i.size+i.n}):0,state.custom.map(function(c){return c.name+c.l+c.n})]);
     var h=0;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0}
     return String(1000+h%9000);
   }
-
-  // segmented controls and steppers
-  document.querySelectorAll('input[name="full"]').forEach(function(x){x.onchange=function(){stopDemo();state.fullness=x.value;render()}});
-  document.querySelectorAll('input[name="pack"]').forEach(function(x){x.onchange=function(){stopDemo();state.packing=x.value;render()}});
-  document.querySelectorAll('input[name="zone"]').forEach(function(x){x.onchange=function(){stopDemo();state.zone=x.value;render()}});
-  [['from-dn','from',-1],['from-up','from',1],['to-dn','to',-1],['to-up','to',1]].forEach(function(a){
-    $(a[0]).onclick=function(){stopDemo();state[a[1]].floors=Math.max(0,Math.min(20,state[a[1]].floors+a[2]));render()};
-  });
-
-  $('bx-dn').onclick=function(){stopDemo();state.extraBoxes=Math.max(-60,(state.extraBoxes||0)-5);render()};
-  $('bx-up').onclick=function(){stopDemo();state.extraBoxes=Math.min(200,(state.extraBoxes||0)+5);render()};
-
-  // WhatsApp: name first, the whole sheet goes in the message
-  var fName=$('f-name'), fWhen=$('f-when'), fFrom=$('f-from'), fTo=$('f-to'), wa=$('wa');
   function sheetText(){
-    var r=lastR||E.estimate(state), L=[];
+    var r=lastR||E.estimate(state), t=state.tier?T[state.tier]:null, L=[];
     L.push('Howzit '+BRAND+', it’s '+(fName.value.trim()||'me')+'.');
     L.push('Move sheet CP-'+refOf());
-    L.push('Home: '+E.HOMES[state.home].label+'. '+(state.packing==='us'?'You pack and move.':'I’ll pack, you move.'));
-    var stuff=state.items.filter(function(i){return i.n>0}).map(function(i){var c=CAT[i.k];return i.n+' x '+(c.label==='TV'?'TV':c.label.toLowerCase())+(Object.keys(c.sizes).length>1?' ('+i.size+')':'')});
-    if(stuff.length)L.push('Stuff: '+stuff.join(', ')+'.');
-    state.custom.filter(function(c){return c.n>0}).forEach(function(c){L.push('Odd one: '+(c.n>1?c.n+' x ':'')+c.name+', '+c.l+' x '+c.w+' x '+c.h+' cm'+(c.tooBig?' (longer than the bakkie)':'')+'.')});
+    if(t)L.push('Moving: '+t.label.toLowerCase()+'. '+(state.packing==='us'?'You pack and move.':'I’ll pack, you move.'));
     var fr=fFrom.value.trim(), to=fTo.value.trim();
     if(fr||to)L.push('From '+(fr||'?')+' to '+(to||'?')+'.');
-    if(r.boxesHi)L.push('Boxes: about '+r.boxesLo+' to '+r.boxesHi+'.');
-    L.push('Stairs: '+state.from.floors+' floors at pickup, '+state.to.floors+' at drop-off.');
-    L.push('Distance: '+({local:'nearby',metro:'across Durban',out:'out of town'})[state.zone]+'.');
-    if(r.quote)L.push(r.trips>BIG_TRIPS?'Your site says this one\u2019s bigger than usual: about '+r.trips+' loads.':'It\u2019s out of town, so please quote: about '+r.trips+(r.trips===1?' load.':' loads.'));
-    else if(r.trips)L.push('Your site says '+r.trips+(r.trips===1?' load':' loads')+', ballpark '+money(r.priceLo)+' to '+money(r.priceHi)+'.');
-    if(fWhen.value.trim())L.push('Moving: '+fWhen.value.trim()+'.');
+    L.push('Distance: '+({local:'nearby',metro:'across Durban',out:'out of town'})[state.zone]+'. Stairs without a lift: '+(state.from.floors?(state.from.floors===3?'3 or more floors':state.from.floors+(state.from.floors===1?' floor':' floors')):'none')+'.');
+    if(state.when)L.push('When: '+state.when.toLowerCase()+'.');
+    if(listEdited){
+      var stuff=state.items.filter(function(i){return i.n>0}).map(function(i){var c=CAT[i.k];return i.n+' x '+(c.label==='TV'?'TV':c.label.toLowerCase())+(Object.keys(c.sizes).length>1?' ('+i.size+')':'')});
+      if(stuff.length)L.push('My list: '+stuff.join(', ')+'.');
+    }
+    state.custom.filter(function(c){return c.n>0}).forEach(function(c){L.push('Odd one: '+(c.n>1?c.n+' x ':'')+c.name+', '+c.l+' x '+c.w+' x '+c.h+' cm'+(c.tooBig?' (longer than the bakkie)':'')+'.')});
+    if(t&&r.boxesHi)L.push('Boxes: about '+r.boxesLo+' to '+r.boxesHi+'.');
+    if(t)L.push(r.quote?'Please quote.':'Your site says '+money(r.priceLo)+' to '+money(r.priceHi)+'.');
+    if($('f-photos').checked)L.push('I\u2019ll send photos of the rooms next.');
     return L.join('\n');
   }
-  function hasStuff(){return state.items.some(function(i){return i.n>0})||state.custom.some(function(c){return c.n>0})||((lastR&&lastR.boxesHi)>0)}
   function updateWA(){
-    var named=fName.value.trim().length>0, stuff=hasStuff(), help=$('wa-help');
+    var named=fName.value.trim().length>0, help=$('wa-help');
     wa.href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(sheetText());
-    wa.setAttribute('aria-disabled',named&&stuff?'false':'true');
+    wa.setAttribute('aria-disabled',named&&state.tier?'false':'true');
     help.classList.remove('need');
-    help.textContent=!stuff?'Add at least one thing to move first.':(!named?'Add your name, then tap to send.':'Ready. This opens WhatsApp with your sheet typed out.');
+    help.textContent=!state.tier?'Pick what you’re moving first.':(!named?'Add your name, then tap to send.':'Ready. This opens WhatsApp with your answers typed out.');
   }
   wa.addEventListener('click',function(e){
-    if(!hasStuff()){e.preventDefault();$('wa-help').classList.add('need');$('homes').scrollIntoView({block:'center'});$('homes').querySelector('button').focus();return}
+    if(!state.tier){e.preventDefault();$('wa-help').classList.add('need');$('tiers').scrollIntoView({block:'center'});$('tiers').querySelector('input').focus();return}
     if(!fName.value.trim()){e.preventDefault();$('wa-help').classList.add('need');fName.focus()}
   });
-  $('book').addEventListener('submit',function(e){e.preventDefault()});
-  [fName,fWhen,fFrom,fTo].forEach(function(f){f.addEventListener('input',updateWA)});
-  document.querySelector('.dock .btn').addEventListener('click',function(e){e.preventDefault();$('book').scrollIntoView({block:'start'});setTimeout(function(){fName.focus({preventScroll:true})},300)});
+  [fName,fFrom,fTo].forEach(function(f){f.addEventListener('input',updateWA)});
   $('hero-wa').href=$('hdr-wa').href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Howzit '+BRAND+', I’m moving soon.');
 
-  // phone dock shows once the summary has scrolled away
+  // phone dock: the price follows you once you've picked a size
+  var dock=$('dock');
+  document.querySelector('.dock .btn').addEventListener('click',function(e){e.preventDefault();if(step<=STEPS){$('qt').scrollIntoView({block:'start'});return}$('book').scrollIntoView({block:'start'});setTimeout(function(){fName.focus({preventScroll:true})},300)});
   if('IntersectionObserver' in window){
-    var dock=$('dock');
-    new IntersectionObserver(function(es){es.forEach(function(e){
-      var past=!e.isIntersecting&&e.boundingClientRect.top<0;dock.classList.toggle('show',past);
-    })}).observe($('summary'));
+    var seen=true;
+    new IntersectionObserver(function(es){es.forEach(function(e){seen=e.isIntersecting;dock.classList.toggle('show',!seen&&!!state.tier&&e.boundingClientRect.top<0)})}).observe($('qt'));
   }
 
   // before/after: wipes to the packed room by itself, then settles on a split you can drag
@@ -719,24 +773,7 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
       ['bedroom','garage'].forEach(function(k){PAIRS[k].slice(0,2).forEach(function(u){var im=new Image();im.src=u})})})},1000);
   })();
 
-  // the opening: the sheet fills itself in for a typical 1-bed flat
-  var demo=null;
-  function stopDemo(){if(demo){clearTimeout(demo);demo=null;state.items.forEach(function(i){delete i.fresh})}}
-  function playDemo(){
-    var target=tag(E.presetItems('one'));
-    state.home='one';
-    document.querySelectorAll('#homes button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.home==='one'?'true':'false')});
-    if(reduce){state.items=target;render();return}
-    state.items=[];render();
-    var i=0;
-    (function next(){
-      if(i>=target.length){demo=null;return}
-      var it=target[i++];it.fresh=true;state.items.push(it);render();
-      demo=setTimeout(next,170);
-    })();
-  }
-  render();
-  setTimeout(playDemo,reduce?0:600);
+  mark();go(1);
 })();
 </script>
 </html>
