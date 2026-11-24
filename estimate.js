@@ -32,7 +32,8 @@
 
   // Rough volumes in cubic metres, by size. Pick the closest, no tape measure needed.
   var CATALOG = {
-    couch:     { label: 'Couch', room: 'Lounge', sizes: { '2-seater': 1.0, '3-seater': 1.4, 'L-shape': 2.2 }, def: '3-seater' },
+    couch:     { label: 'Couch', room: 'Lounge', sizes: { '1-seater': 0.6, '2-seater': 1.0, '3-seater': 1.4, 'L-shape': 2.2 }, def: '3-seater' },
+    recliner:  { label: 'Recliner / Lazy Boy', room: 'Lounge', sizes: { std: 0.8 } },
     armchair:  { label: 'Armchair', room: 'Lounge', sizes: { std: 0.6 } },
     coffee:    { label: 'Coffee table', room: 'Lounge', sizes: { std: 0.3 } },
     tvunit:    { label: 'TV unit', room: 'Lounge', sizes: { std: 0.4 } },

@@ -262,6 +262,12 @@ details.more[open] > summary::after{content:"\2212"}
 .more-body{display:grid;gap:14px;margin-top:12px}
 .more .q legend{font-size:16px;margin-bottom:8px}
 .row select{min-height:36px;font-size:15px}
+.row .name small{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.row:not(.has) .name{color:var(--muted)}
+.row.has .name{font-weight:700}
+.list-rooms button{padding:7px 14px;font-size:14px}
+.list-sum{font-size:14px;font-weight:600;padding:10px 12px;border-radius:10px;background:var(--chip)}
+.list-sum.over{color:var(--err)}
 .row .step button{min-width:40px;height:40px}
 @media (max-width:420px){.qt{padding:18px 16px}.opts{gap:8px}.opt{padding:12px 14px}}
 
@@ -437,12 +443,9 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
           <details class="more" id="more">
             <summary>Add your list <span class="hint">optional</span></summary>
             <div class="more-body">
-              <p class="hint">Helps us send the right crew. It doesn't change the price above.</p>
+              <p class="hint">Tap + for what you're taking. It helps us send the right crew; your price above stays the same.</p>
+              <div class="chips list-rooms" id="list-rooms" role="group" aria-label="Pick a room"></div>
               <div class="rows" id="rows"></div>
-              <div class="addrow">
-                <select id="add-select" aria-label="Add something"></select>
-                <button type="button" class="small-btn" id="add-btn">Add</button>
-              </div>
               <details class="odd" id="odd">
                 <summary>Something odd? Measure just that one</summary>
                 <p class="hint" style="margin-top:8px">Piano, fish tank, the giant wooden giraffe. Centimetres or metres, we sort it out.</p>
@@ -455,6 +458,8 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
                 </div>
                 <p class="err" id="odd-err" aria-live="polite"></p>
               </details>
+              <div class="rows" id="odd-rows"></div>
+              <p class="list-sum" id="list-sum" aria-live="polite">Nothing on your list yet.</p>
               <fieldset class="q">
                 <legend>How full are your cupboards?</legend>
                 <div class="opts small three">
@@ -514,7 +519,7 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
   <a class="btn" href="#book" tabindex="-1">Book it</a>
 </div>
 
-<script src="estimate.js?v=2"></script>
+<script src="estimate.js?v=3"></script>
 <script>
 (function(){
   var BRAND='Fast Removals Durban';  // change the name here
@@ -544,11 +549,11 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
   var STEP_OF={tier:1,pack:2,zone:3,stairs:4,when:5};
   document.querySelectorAll('.qt input[type=radio]').forEach(function(x){x.addEventListener('change',function(){
     var v=x.value;
-    if(x.name==='tier'){state.tier=v;state.home=v;if(!listEdited)state.items=tag(E.presetItems(v))}
+    if(x.name==='tier'){state.tier=v;state.home=v}
     else if(x.name==='pack')state.packing=v;
     else if(x.name==='zone')state.zone=v;
     else if(x.name==='stairs')state.from.floors=+v;
-    else if(x.name==='full'){state.fullness=v;listEdited=true}
+    else if(x.name==='full')state.fullness=v;
     else if(x.name==='when')state.when=v;
     if(STEP_OF[x.name])answered[STEP_OF[x.name]]=true;
     mark();render();
@@ -586,22 +591,18 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
   // checked style for browsers without :has()
   function mark(){document.querySelectorAll('.qt .opt').forEach(function(l){var i=l.querySelector('input');l.classList.toggle('on',!!(i&&i.checked))})}
 
-  // the optional list
-  (function(){
-    var sel=$('add-select'), groups={};
-    var o=document.createElement('option');o.value='';o.textContent='Add something…';sel.appendChild(o);
-    Object.keys(CAT).forEach(function(k){
-      var r=CAT[k].room;if(!groups[r]){groups[r]=document.createElement('optgroup');groups[r].label=r;sel.appendChild(groups[r])}
-      var op=document.createElement('option');op.value=k;op.textContent=CAT[k].label;groups[r].appendChild(op);
-    });
-  })();
-  $('add-btn').onclick=function(){
-    var k=$('add-select').value;if(!k)return;
-    var c=CAT[k], size=c.def||Object.keys(c.sizes)[0];
-    var ex=state.items.find(function(i){return i.k===k&&i.size===size});
-    if(ex)ex.n=Math.min(MAX_EACH,ex.n+1);else state.items.push({id:++uid,k:k,size:size,n:1,fresh:true});
-    listEdited=true;$('add-select').value='';render();
-  };
+  // the optional list: every item starts at 0, one row per size, one room at a time
+  var LIST_ROOMS=['Lounge','Kitchen','Bedroom','Outside'], listRoom='Lounge', counts={};
+  function slug(x){return x.replace(/[^a-z0-9]+/gi,'-').toLowerCase()}
+  function syncItems(){
+    state.items=Object.keys(counts).filter(function(x){return counts[x]>0}).map(function(x){var p=x.split('|');return{k:p[0],size:p[1],n:counts[x]}});
+    listEdited=state.items.length>0||state.custom.some(function(c){return c.n>0});
+  }
+  LIST_ROOMS.forEach(function(r){
+    var b=document.createElement('button');b.type='button';b.textContent=r;b.dataset.room=r;b.setAttribute('aria-pressed',r===listRoom?'true':'false');
+    b.onclick=function(){listRoom=r;document.querySelectorAll('#list-rooms button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});renderRows()};
+    $('list-rooms').appendChild(b);
+  });
   function parseLen(v){
     v=String(v||'').trim().toLowerCase().replace(',','.');
     var m=v.match(/^(\d+(?:\.\d+)?)\s*(cm|mm|m)?$/);if(!m)return null;
@@ -618,44 +619,48 @@ footer .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));dis
     }
     var cm=d.map(function(v){return Math.round(v.cm)}), guessed=d.some(function(v){return v.guess});
     var name=$('odd-name').value.trim()||'Odd thing';
-    state.custom.push({id:++uid,name:name,l:cm[0],w:cm[1],h:cm[2],n:1,fresh:true,tooBig:Math.max.apply(null,cm)>BOX_LEN_CM});
+    state.custom.push({id:++uid,name:name,l:cm[0],w:cm[1],h:cm[2],n:1,tooBig:Math.max.apply(null,cm)>BOX_LEN_CM});
     ['odd-name','odd-l','odd-w','odd-h'].forEach(function(id){$(id).value=''});
     err.textContent=guessed?('Read as metres: '+cm.join(' x ')+' cm.'):'';
-    listEdited=true;render();
+    syncItems();render();
   };
-  var ROOMS=['Lounge','Kitchen','Bedroom','Outside','Odd ones'];
+  function stepper(label,n,id,onChange){
+    var st=document.createElement('span');st.className='step';
+    var dn=document.createElement('button');dn.type='button';dn.innerHTML='&minus;';dn.id='dn-'+id;dn.setAttribute('aria-label','One less '+label);
+    var out=document.createElement('output');out.textContent=n;
+    var up=document.createElement('button');up.type='button';up.textContent='+';up.id='up-'+id;up.setAttribute('aria-label','One more '+label);
+    dn.disabled=n<=0;up.disabled=n>=MAX_EACH;
+    dn.onclick=function(){onChange(Math.max(0,n-1))};up.onclick=function(){onChange(Math.min(MAX_EACH,n+1))};
+    st.appendChild(dn);st.appendChild(out);st.appendChild(up);return st;
+  }
   function renderRows(){
-    var box=$('rows');box.innerHTML='';tag(state.items);tag(state.custom);
-    var byRoom={};
-    state.items.forEach(function(it){(byRoom[CAT[it.k].room]=byRoom[CAT[it.k].room]||[]).push({it:it})});
-    if(state.custom.length)byRoom['Odd ones']=state.custom.map(function(c){return{c:c}});
-    if(!state.items.length&&!state.custom.length){var p=document.createElement('p');p.className='hint';p.textContent=state.tier?'Nothing on the list yet. Add things below.':'Pick what you’re moving above and we’ll start the list for you.';box.appendChild(p);return}
-    ROOMS.forEach(function(r){
-      if(!byRoom[r])return;
-      var h=document.createElement('div');h.className='room';h.textContent=r;box.appendChild(h);
-      byRoom[r].forEach(function(e){
-        var item=e.it||e.c, row=document.createElement('div');row.className='row';
-        if(item.n===0)row.classList.add('zero');
-        if(item.fresh){row.classList.add('in');delete item.fresh}
-        var name=document.createElement('span');name.className='name';name.textContent=e.it?CAT[e.it.k].label:e.c.name;row.appendChild(name);
-        if(e.it&&Object.keys(CAT[e.it.k].sizes).length>1){
-          var s=document.createElement('select');s.id='size-'+item.id;s.setAttribute('aria-label','Size of '+CAT[e.it.k].label.toLowerCase());
-          Object.keys(CAT[e.it.k].sizes).forEach(function(z){var o=document.createElement('option');o.value=z;o.textContent=z;if(z===e.it.size)o.selected=true;s.appendChild(o)});
-          s.onchange=function(){e.it.size=s.value;listEdited=true;render()};row.appendChild(s);
-        } else {var f=document.createElement('span');f.className='fixed';if(e.c)f.textContent=e.c.l+' x '+e.c.w+' x '+e.c.h+' cm';row.appendChild(f)}
-        var st=document.createElement('span');st.className='step';
-        var dn=document.createElement('button');dn.type='button';dn.innerHTML='&minus;';dn.setAttribute('aria-label','One less '+name.textContent.toLowerCase());
-        var out=document.createElement('output');out.textContent=item.n;
-        var up=document.createElement('button');up.type='button';up.textContent='+';up.setAttribute('aria-label','One more '+name.textContent.toLowerCase());
-        var key=(e.it?'i':'c')+item.id;dn.id='dn-'+key;up.id='up-'+key;
-        dn.disabled=item.n<=0;up.disabled=item.n>=MAX_EACH;
-        dn.onclick=function(){item.n=Math.max(0,item.n-1);listEdited=true;render()};
-        up.onclick=function(){item.n=Math.min(MAX_EACH,item.n+1);listEdited=true;render()};
-        st.appendChild(dn);st.appendChild(out);st.appendChild(up);row.appendChild(st);
-        if(e.c&&e.c.tooBig){var w=document.createElement('span');w.className='warn';w.textContent='Longer than the inside of the bakkie. We’ll sort it out on WhatsApp.';row.appendChild(w)}
+    var box=$('rows');box.innerHTML='';
+    Object.keys(CAT).forEach(function(k){
+      var c=CAT[k];if(c.room!==listRoom)return;
+      Object.keys(c.sizes).forEach(function(z){
+        var key=k+'|'+z, n=counts[key]||0, row=document.createElement('div');row.className='row'+(n?' has':'');
+        var name=document.createElement('span');name.className='name';name.textContent=c.label;
+        if(z!=='std'){var sz=document.createElement('small');sz.textContent=z;name.appendChild(sz)}
+        row.appendChild(name);
+        row.appendChild(stepper((c.label+(z!=='std'?' '+z:'')).toLowerCase(),n,slug(key),function(v){counts[key]=v;syncItems();render()}));
         box.appendChild(row);
       });
     });
+    var odd=$('odd-rows');odd.innerHTML='';
+    state.custom.forEach(function(cu){
+      var row=document.createElement('div');row.className='row'+(cu.n?' has':'');
+      var name=document.createElement('span');name.className='name';name.textContent=cu.name;
+      var sz=document.createElement('small');sz.textContent=cu.l+' x '+cu.w+' x '+cu.h+' cm';name.appendChild(sz);row.appendChild(name);
+      row.appendChild(stepper(cu.name.toLowerCase(),cu.n,'odd-'+cu.id,function(v){cu.n=v;syncItems();render()}));
+      if(cu.tooBig){var w=document.createElement('span');w.className='warn';w.textContent='Longer than the inside of the bakkie. We’ll sort it out on WhatsApp.';row.appendChild(w)}
+      odd.appendChild(row);
+    });
+    // what the list adds up to
+    var things=state.items.reduce(function(s,i){return s+i.n},0)+state.custom.reduce(function(s,c){return s+c.n},0), sum=$('list-sum');
+    if(!things){sum.textContent='Nothing on your list yet.';sum.classList.remove('over');return}
+    var r=E.estimate(state), t=state.tier?T[state.tier]:null, loads=r.listTrips;
+    sum.textContent=things+(things===1?' thing':' things')+' on your list · '+(loads<=1?'fits in one bakkie load':'about '+loads+' bakkie loads');
+    sum.classList.toggle('over',!!(t&&loads>t.loads));
   }
 
   // the price, counting up when it changes
